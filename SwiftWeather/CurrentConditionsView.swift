@@ -8,16 +8,18 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct CurrentConditionsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
+    /*
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
+     */
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(){
                 Text("St. Paul, MN").font(.headline).italic().fontWeight(.light).padding(16)
                 Divider()
@@ -47,14 +49,21 @@ struct ContentView: View {
                         }
                         HStack {
                             Text("Pressure:")
-                            Text("1023 mBa")
+                            Text("1023 hPa")
                         }
                     }.padding(16)
                     Spacer()
                 }
                 Spacer()
+                NavigationLink(destination: ForecastView()) {
+                    Text("Daily Forecast").foregroundColor(Color.black)
+                    .frame(width: 150, height: 50).background(Color.teal)
+                }.containerShape(RoundedRectangle(cornerRadius: 20))
+                Spacer()
             }
             .navigationTitle("SwiftWeather")
+            .toolbarBackground(Color.teal, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             /*.toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text("SwiftWeather").font(.largeTitle)
@@ -71,7 +80,7 @@ struct ContentView: View {
             Text("Select an item")*/
         }
     }
-
+    /*
     private func addItem() {
         withAnimation {
             let newItem = Item(context: viewContext)
@@ -101,18 +110,18 @@ struct ContentView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-    }
+    } */
 }
-
+/*
 private let itemFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .short
     formatter.timeStyle = .medium
     return formatter
 }()
-
-struct ContentView_Previews: PreviewProvider {
+*/
+struct CurrentConditionsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        CurrentConditionsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
