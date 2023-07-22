@@ -8,9 +8,9 @@
 import Foundation
 
 class CurrentConditionsViewModel {
-    let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?zip=55119,us&units=imperial&appid=2ba6a68c2752676b1f6a031bb637be59")
     
-    URLSession.shared.fetchData(for: url) {
+    
+    /*URLSession.shared.fetchData(for: url) {
         (result: Result<CurrentConditions, Error>) in
         switch result {
             case .success(let currentConditions):
@@ -18,5 +18,5 @@ class CurrentConditionsViewModel {
             case .failure(let error):
             //I think I should do something here
         }
-    }
+    } */
 }
