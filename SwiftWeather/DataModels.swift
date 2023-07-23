@@ -8,15 +8,86 @@
 import Foundation
 
 struct CurrentConditions: Decodable {
+    let currentWeatherList : Array<CurrentWeather>
     let locationName : String
-    /* let currentTemp : Float
+    let weatherData : WeatherData
+    
+    enum CodingKeys: String, CodingKey {
+        case locationName = "name"
+        case currentWeatherList = "weather"
+        case weatherData = "main"
+    }
+}
+
+struct CurrentWeather: Decodable {
+    let icon : String
+    
+    enum CodingKeys: String, CodingKey {
+        case icon = "icon"
+    }
+}
+
+struct WeatherData: Decodable {
+    let currentTemp : Float
     let feelsLike : Float
     let minTemp : Float
     let maxTemp : Float
     let humidity : Int
-    let pressure : Int */
+    let pressure : Int
     
     enum CodingKeys: String, CodingKey {
-        case locationName = "name"
+        case currentTemp = "temp"
+        case feelsLike = "feels_like"
+        case minTemp = "temp_min"
+        case maxTemp = "temp_max"
+        case humidity = "humidity"
+        case pressure = "pressure"
     }
 }
+
+/*
+{
+    "coord": {
+        "lon": -93.0107,
+        "lat": 44.9414
+    },
+    "weather": [
+        {
+            "id":802,
+            "main":"Clouds",
+            "description":"scattered clouds",
+            "icon":"03d"
+        }
+    ],
+    "base":"stations",
+    "main": {
+        "temp":301.97,
+        "feels_like":302.04,
+        "temp_min":299.86,
+        "temp_max":304.13,
+        "pressure":1009,
+        "humidity":45
+    },
+    "visibility":10000,
+    "wind": {
+        "speed":6.69,
+        "deg":250,
+        "gust":11.32
+    },
+    "clouds": {
+        "all":40
+    },
+    "dt":1690057252,
+    "sys": {
+        "type":2,
+        "id":2003983,
+        "country":"US",
+        "sunrise":1690022779,
+        "sunset":1690077018
+    },
+    "timezone":-18000,
+    "id":0,
+    "name":"Saint Paul",
+    "cod":200
+ }
+ */

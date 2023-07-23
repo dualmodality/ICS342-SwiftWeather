@@ -10,7 +10,7 @@ import Foundation
 class ApiCaller {
     let session = URLSession.shared
     var dataTask: URLSessionDataTask?
-    func getCurrentConditions() -> CurrentConditions {
+    func getCurrentConditions() {
         let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?zip=55119,us&units=imperial&appid=2ba6a68c2752676b1f6a031bb637be59")
         dataTask?.cancel()
         dataTask = session.dataTask(with: url!)

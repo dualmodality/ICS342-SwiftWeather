@@ -10,18 +10,13 @@ import CoreData
 
 struct CurrentConditionsView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    var viewModel: CurrentConditionsViewModel
 
-    /*
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-     */
 
     var body: some View {
         NavigationStack {
             VStack(){
-                Text("St. Paul, MN").font(.headline).italic().fontWeight(.light).padding(16)
+                Text(viewModel.locationName).font(.headline).italic().fontWeight(.light).padding(16)
                 Divider()
                 HStack{
                     VStack{
@@ -122,6 +117,6 @@ private let itemFormatter: DateFormatter = {
 */
 struct CurrentConditionsView_Previews: PreviewProvider {
     static var previews: some View {
-        CurrentConditionsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        CurrentConditionsView(viewModel: CurrentConditionsViewModel()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
