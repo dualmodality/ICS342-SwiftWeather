@@ -15,14 +15,14 @@ struct CurrentConditionsView: View {
     var body: some View {
         NavigationStack {
             VStack(){
-                Text(viewModel.getLocationName()).font(.headline).italic().fontWeight(.light).padding(16)
+                Text(viewModel.locationName).font(.headline).italic().fontWeight(.light).padding(16)
                 Divider()
                 HStack{
                     VStack{
-                        Text("76ºF").font(.system(size: 64))
+                        Text(String(viewModel.currentTemp) + "ºF").font(.system(size: 64))
                         HStack {
                             Text("Feels Like:")
-                            Text("73ºF")
+                            Text(String(viewModel.feelsLike) + "ºF")
                         }
                     }
                     Image("CurrentConditionsIcons").resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
@@ -31,19 +31,19 @@ struct CurrentConditionsView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Low:")
-                            Text("68ºF")
+                            Text(String(viewModel.minTemp) + "ºF")
                         }
                         HStack {
                             Text("High:")
-                            Text("81ºF")
+                            Text(String(viewModel.maxTemp) + "ºF")
                         }
                         HStack {
                             Text("Humidity:")
-                            Text("68%")
+                            Text(String(viewModel.humidity) + "%")
                         }
                         HStack {
                             Text("Pressure:")
-                            Text("1023 hPa")
+                            Text(String(viewModel.pressure) + "hPa")
                         }
                     }.padding(16)
                     Spacer()

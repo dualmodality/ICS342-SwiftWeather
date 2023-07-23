@@ -7,6 +7,19 @@
 
 import Foundation
 
+/*
+ This is the Data Model file, and is pretty similar to the treatment of the data model in Kotlin.
+ 
+ Swift                          vs.                         Kotlin
+ declared with 'struct'                                     declared with 'data class'
+ 'Decodable' interface allows data class                    Requires use of external library (Moshi) to interpret
+    to be constructed from JSON                                 JSON data
+ Use of 'enum Coding Keys' structure to help Swift          Moshi uses the @Json annotation to perform this function
+    contruct the object from JSON
+ 
+ Both require that the internal data object structure mirror the structure of the JSON object you are trying to encode
+ */
+
 struct CurrentConditions: Decodable {
     let currentWeatherList : Array<CurrentWeather>
     let locationName : String
@@ -17,6 +30,7 @@ struct CurrentConditions: Decodable {
         case currentWeatherList = "weather"
         case weatherData = "main"
     }
+    
 }
 
 struct CurrentWeather: Decodable {
