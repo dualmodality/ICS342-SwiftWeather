@@ -10,13 +10,12 @@ import CoreData
 
 struct CurrentConditionsView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    var viewModel: CurrentConditionsViewModel
-
+    @StateObject var viewModel: CurrentConditionsViewModel
 
     var body: some View {
         NavigationStack {
             VStack(){
-                Text(viewModel.locationName).font(.headline).italic().fontWeight(.light).padding(16)
+                Text(viewModel.getLocationName()).font(.headline).italic().fontWeight(.light).padding(16)
                 Divider()
                 HStack{
                     VStack{
