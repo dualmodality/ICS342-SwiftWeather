@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct SwiftWeatherApp: App {
     let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
             CurrentConditionsView(viewModel: CurrentConditionsViewModel())

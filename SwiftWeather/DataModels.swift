@@ -59,6 +59,39 @@ struct WeatherData: Decodable {
     }
 }
 
+struct MultiForecast: Decodable {
+    let count : Int
+    let forecastList : Array<DayForecast>
+    
+    enum CodingKeys: String, CodingKey {
+        case count = "cnt"
+        case forecastList = "list"
+    }
+}
+
+struct DayForecast: Decodable {
+    let date : Int64
+    let sunrise : Int64
+    let sunset : Int64
+    let tempData : ForecastTemp
+    let currentWeatherList : Array<CurrentWeather>
+    
+    enum CodingKeys: String, CodingKey {
+        case date = "dt"
+        case sunrise = "sunrise"
+        case sunset = "sunset"
+        case tempData = "temp"
+        case currentWeatherList = "weather"
+    }
+    
+}
+
+struct ForecastTemp: Decodable {
+    let day : Float
+    let min : Float
+    let max : Float
+}
+
 /*
 {
     "coord": {

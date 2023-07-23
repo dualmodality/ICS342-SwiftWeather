@@ -25,7 +25,8 @@ struct CurrentConditionsView: View {
                             Text(String(viewModel.feelsLike) + "ºF")
                         }
                     }
-                    Image("CurrentConditionsIcons").resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
+                    
+                    Image(uiImage: viewModel.icon!).resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
                 }
                 HStack {
                     VStack(alignment: .leading) {
@@ -49,7 +50,7 @@ struct CurrentConditionsView: View {
                     Spacer()
                 }
                 Spacer()
-                NavigationLink(destination: ForecastView()) {
+                NavigationLink(destination: ForecastView(viewModel: ForeCastViewModel())) {
                     Text("Daily Forecast").foregroundColor(Color.black)
                     .frame(width: 150, height: 50).background(Color.teal)
                 }.containerShape(RoundedRectangle(cornerRadius: 20))

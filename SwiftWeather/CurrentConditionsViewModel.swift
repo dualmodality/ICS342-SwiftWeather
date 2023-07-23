@@ -28,11 +28,17 @@ class CurrentConditionsViewModel : ObservableObject {
     @Published var maxTemp = 999
     @Published var humidity = 100
     @Published var pressure = 1000
+    @Published var iconString : String?
+    @Published var icon = UIImage(named: "CurrentConditionsIcons")
     
     init() {
-        /* Here is where the API call is made. After I fully implement pushing data from the VM to the View, I'm going to go back
-         and see if I can't refactor this into a separate file so that I can reuse the API call to implement the Forecast screen
-         as well. I have the file ApiCaller, but right now it's not doing anything.*/
+        
+        /* Here is where the API call is made. I couldn't quite figure out an easy way to pull this into an ApiCaller Object and then use that
+         Object to make API calls. The problem is right now that I don't understand how to get the data collected by dataTask exposed outside
+         of the dataTask object. I would need to dig a bit deeper into how the structure of the URLSession interface works to fully
+         understand what it's doing and how I need to interact with it. Right now things are kind of kludgy by work, and I'm going to
+         say I'm content with that for now. There almost certainly is a more elegant way to structure this than what I'm doing, though. */
+        
         let urlString =  "https://api.openweathermap.org/data/2.5/weather?zip=55119,us&units=imperial&appid=2ba6a68c2752676b1f6a031bb637be59"
         let url = URL(string: urlString)
         let defaultSession = URLSession(configuration: .default)
@@ -54,6 +60,10 @@ class CurrentConditionsViewModel : ObservableObject {
                 self.maxTemp = Int(json.weatherData.maxTemp)
                 self.humidity = json.weatherData.humidity
                 self.pressure = json.weatherData.pressure
+                self.iconString = "https://openweathermap.org/img/wn/" + json.currentWeatherList.first!.icon + "@2x.png"
+                if let data = try? Data(contentsOf: URL(string: self.iconString!)!) {
+                    self.icon = UIImage(data: data)
+                }
             } catch {
                 print(error)
                 self.locationName = "Error2"
@@ -62,5 +72,10 @@ class CurrentConditionsViewModel : ObservableObject {
             }
         }
         dataTask.resume()
+     
+        
+        
     }
+         
+    
 }
