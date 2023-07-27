@@ -15,7 +15,23 @@ struct CurrentConditionsView: View {
     var body: some View {
         NavigationStack {
             VStack(){
-                Text(viewModel.currentConditions.locationName).font(.headline).italic().fontWeight(.light).padding(16)
+                HStack(alignment: .center) {
+                    Text("ZIP Code:").font(.title).padding(8)
+                    Spacer()
+                    TextField("ZIP Code:",
+                              text: Binding(get:
+                                                { return viewModel.userZip! },
+                                            set:
+                                                { zip in
+                        viewModel.userZip = zip;
+                    }
+                                           )
+                    ).font(.title).padding(8)
+                    Button(action: {Task {await viewModel.getCurrentConditions()}},
+                           label: {Text("Update")}).foregroundColor(Color.black)
+                        .frame(width: 100, height: 50).background(Color.teal).containerShape(RoundedRectangle(cornerRadius: 20)).padding(8)
+                }
+                Text(viewModel.currentConditions.locationName).font(.largeTitle).italic().fontWeight(.light).padding(16)
                 Divider()
                 HStack{
                     VStack{
