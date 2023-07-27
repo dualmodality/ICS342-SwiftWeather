@@ -21,6 +21,44 @@ import UIKit
 
 class CurrentConditionsViewModel : ObservableObject {
     
+    @Published var userZip : String? = "55119";
+    @Published var currentConditions = CurrentConditions(currentWeatherList: [CurrentWeather(icon: "10d")], locationName: "No Data", weatherData: WeatherData(currentTemp: 0, feelsLike: 0, minTemp: 0, maxTemp: 0, humidity: 0, pressure: 0))
+    @Published var userUnits = "imperial";
+    @Published var currentConditionsIcon = UIImage(named: "CurrentConditionsIcons");
+    private let apiService : APIService;
+    @Published var showInvalidZipWarning : Bool = false;
+    
+    init() {
+        self.apiService = APIService();
+        Task {
+            await getCurrentConditions();
+        }
+    }
+    
+    func getCurrentConditions() async {
+        if validateZip() {
+            do {
+                currentConditions = await apiService.getCurrentConditions(zipCode: userZip!, units: userUnits) ?? CurrentConditions(currentWeatherList: [CurrentWeather(icon: "10d")], locationName: "No Data", weatherData: WeatherData(currentTemp: 0, feelsLike: 0, minTemp: 0, maxTemp: 0, humidity: 0, pressure: 0));
+                if (currentConditions.locationName != "No Data") {
+                    currentConditionsIcon = await apiService.getIcon(iconString: currentConditions.currentWeatherList.first!.icon)
+                }
+            }
+        }
+            
+    }
+        
+    func validateZip() -> Bool {
+        if ( (userZip == nil) || (userZip!.count != 5) || (!(userZip!.allSatisfy{ char in char.isNumber})) ) {
+            showInvalidZipWarning = true;
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    
+    /*
+    
     @Published var locationName = "Nowhere"
     @Published var currentTemp = 42
     @Published var feelsLike = 42
@@ -76,6 +114,8 @@ class CurrentConditionsViewModel : ObservableObject {
         
         
     }
+    
+     */
          
     
 }

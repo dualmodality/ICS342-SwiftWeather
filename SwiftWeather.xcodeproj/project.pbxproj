@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4108D9BF2A6DC01F00F9178A /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4108D9BE2A6DC01F00F9178A /* ForecastViewModel.swift */; };
+		418C30622A728CC80049D09C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C30612A728CC80049D09C /* APIService.swift */; };
 		41E12B002A65968C006315F1 /* SwiftWeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E12AFF2A65968C006315F1 /* SwiftWeatherApp.swift */; };
 		41E12B022A65968C006315F1 /* CurrentConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E12B012A65968C006315F1 /* CurrentConditionsView.swift */; };
 		41E12B042A65968D006315F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41E12B032A65968D006315F1 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		4108D9BE2A6DC01F00F9178A /* ForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewModel.swift; sourceTree = "<group>"; };
+		418C30612A728CC80049D09C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		41E12AFC2A65968C006315F1 /* SwiftWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41E12AFF2A65968C006315F1 /* SwiftWeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftWeatherApp.swift; sourceTree = "<group>"; };
 		41E12B012A65968C006315F1 /* CurrentConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentConditionsView.swift; sourceTree = "<group>"; };
@@ -108,11 +110,12 @@
 			isa = PBXGroup;
 			children = (
 				41E12AFF2A65968C006315F1 /* SwiftWeatherApp.swift */,
-				41E12B012A65968C006315F1 /* CurrentConditionsView.swift */,
-				41F4AA382A6B6FB900541B2A /* ForecastView.swift */,
-				4108D9BE2A6DC01F00F9178A /* ForecastViewModel.swift */,
+				418C30612A728CC80049D09C /* APIService.swift */,
 				41F4AA3A2A6B809000541B2A /* DataModels.swift */,
 				41F4AA3E2A6B851B00541B2A /* CurrentConditionsViewModel.swift */,
+				4108D9BE2A6DC01F00F9178A /* ForecastViewModel.swift */,
+				41E12B012A65968C006315F1 /* CurrentConditionsView.swift */,
+				41F4AA382A6B6FB900541B2A /* ForecastView.swift */,
 				41E12B032A65968D006315F1 /* Assets.xcassets */,
 				41E12B082A65968D006315F1 /* Persistence.swift */,
 				41E12B0D2A65968D006315F1 /* Info.plist */,
@@ -284,6 +287,7 @@
 				41F4AA3B2A6B809000541B2A /* DataModels.swift in Sources */,
 				4108D9BF2A6DC01F00F9178A /* ForecastViewModel.swift in Sources */,
 				41E12B0C2A65968D006315F1 /* SwiftWeather.xcdatamodeld in Sources */,
+				418C30622A728CC80049D09C /* APIService.swift in Sources */,
 				41E12B002A65968C006315F1 /* SwiftWeatherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

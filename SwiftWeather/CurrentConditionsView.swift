@@ -15,36 +15,36 @@ struct CurrentConditionsView: View {
     var body: some View {
         NavigationStack {
             VStack(){
-                Text(viewModel.locationName).font(.headline).italic().fontWeight(.light).padding(16)
+                Text(viewModel.currentConditions.locationName).font(.headline).italic().fontWeight(.light).padding(16)
                 Divider()
                 HStack{
                     VStack{
-                        Text(String(viewModel.currentTemp) + "ºF").font(.system(size: 64))
+                        Text(String(Int(viewModel.currentConditions.weatherData.currentTemp)) + "ºF").font(.system(size: 64))
                         HStack {
                             Text("Feels Like:")
-                            Text(String(viewModel.feelsLike) + "ºF")
+                            Text(String(Int(viewModel.currentConditions.weatherData.feelsLike)) + "ºF")
                         }
                     }
                     
-                    Image(uiImage: viewModel.icon!).resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
+                   Image(uiImage: viewModel.currentConditionsIcon!).resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
                 }
                 HStack {
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Low:")
-                            Text(String(viewModel.minTemp) + "ºF")
+                            Text(String(Int(viewModel.currentConditions.weatherData.minTemp)) + "ºF")
                         }
                         HStack {
                             Text("High:")
-                            Text(String(viewModel.maxTemp) + "ºF")
+                            Text(String(Int(viewModel.currentConditions.weatherData.maxTemp)) + "ºF")
                         }
                         HStack {
                             Text("Humidity:")
-                            Text(String(viewModel.humidity) + "%")
+                            Text(String((viewModel.currentConditions.weatherData.humidity)) + "%")
                         }
                         HStack {
                             Text("Pressure:")
-                            Text(String(viewModel.pressure) + "hPa")
+                            Text(String((viewModel.currentConditions.weatherData.pressure)) + "hPa")
                         }
                     }.padding(16)
                     Spacer()
@@ -52,13 +52,18 @@ struct CurrentConditionsView: View {
                 Spacer()
                 NavigationLink(destination: ForecastView(viewModel: ForeCastViewModel())) {
                     Text("Daily Forecast").foregroundColor(Color.black)
-                    .frame(width: 150, height: 50).background(Color.teal)
+                        .frame(width: 150, height: 50).background(Color.teal)
                 }.containerShape(RoundedRectangle(cornerRadius: 20))
                 Spacer()
             }
             .navigationTitle("SwiftWeather")
             .toolbarBackground(Color.teal, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            .task {
+                do {
+                    await viewModel.getCurrentConditions()
+                }
+            }
             /*.toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text("SwiftWeather").font(.largeTitle)

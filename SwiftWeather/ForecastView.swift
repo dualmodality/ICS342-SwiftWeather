@@ -12,9 +12,9 @@ struct ForecastView: View {
     var body: some View {
         NavigationStack {
             LazyVStack {
-                ForEach(viewModel.forecastList, id: \.date) { forecast in
+                ForEach(viewModel.MultiDay, id: \.date) { forecast in
                     DayForecastView(forecast: forecast)
-                }
+                }.padding(8)
             }
             .navigationTitle("16–Day Forecast")
             .toolbarBackground(Color.teal, for: .navigationBar)
@@ -25,29 +25,24 @@ struct ForecastView: View {
 }
 
 struct DayForecastView: View {
-    var forecast : DayForecast
+    let forecast : DayForecast
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
     
-
-    
     var body: some View {
-        var icon = Image("CurrentConditionsImage")
         dateFormatter.dateFormat = "MMM d"
         timeFormatter.dateFormat = "H:mma"
-        if let data = try? Data(contentsOf: URL(string: String("https://openweathermap.org/img/wn/" + forecast.currentWeatherList.first!.icon + "@2x.png"))!) {
-            icon = Image(uiImage: UIImage(data: data)!)
-        }
+        
         return HStack {
-            icon
+            Image(uiImage: forecast.icon)
             Spacer()
             Text(dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(integerLiteral: forecast.date))))
             Spacer()
             VStack(alignment: .leading) {
-                Text("Temp: " + String(Int(forecast.tempData.day)) + "ºF")
+                Text("Temp: " + String(Int(forecast.dayTemp)) + "ºF")
                 HStack{
-                    Text("Low: " + String(Int(forecast.tempData.min)) + "ºF")
-                    Text("High: " + String(Int(forecast.tempData.max)) + "ºF")
+                    Text("Low: " + String(Int(forecast.minTemp)) + "ºF")
+                    Text("High: " + String(Int(forecast.maxTemp)) + "ºF")
                 }
                  
              }

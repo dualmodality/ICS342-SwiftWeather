@@ -9,28 +9,48 @@ import Foundation
 import UIKit
 
 class ForeCastViewModel : ObservableObject {
-    @Published var count = 0
-    @Published var forecastList = [DayForecast]()
+    @Published var count : Int = 16;
+    @Published var userZip : String? = "55119";
+    @Published var userUnits = "imperial";
+    @Published var showInvalidZipWarning : Bool = false;
+    @Published var MultiDay : [DayForecast] = []
+    
+    private let apiService : APIService;
     
     init() {
-        let urlString = "https://api.openweathermap.org/data/2.5/forecast/daily?zip=55119,us&units=imperial&cnt=16&appid=2ba6a68c2752676b1f6a031bb637be59"
-        let url = URL(string: urlString)
-        let defaultSession = URLSession(configuration: .default)
-        let dataTask = defaultSession.dataTask(with: url!) {
-            (data: Data?, response: URLResponse?, error: Error?) in
-            if (error != nil) {
-                print(error!)
-                return
-            }
-            do {
-                let json = try JSONDecoder().decode(MultiForecast.self, from: data!)
-                self.count = json.count
-                self.forecastList = json.forecastList
-            } catch {
-                print("Error converting JSON")
-                return
-            }
+        self.apiService = APIService();
+        Task {
+            await getForecast();
         }
-        dataTask.resume()
+    }
+    
+    func getForecast() async {
+        if (validateZip()) {
+            MultiDay = []
+            var forecastDump = await apiService.getForecast(zipCode: userZip!, units: userUnits, count: count)!;
+            for day in forecastDump.dumpList {
+                let iconString = day.currentWeatherList.first!.icon;
+                let newDay = DayForecast(
+                    icon: await apiService.getIcon(iconString: iconString),
+                    date: day.date,
+                    sunrise: day.sunrise,
+                    sunset: day.sunset,
+                    dayTemp: day.tempData.day,
+                    minTemp: day.tempData.min,
+                    maxTemp: day.tempData.max
+                )
+                MultiDay.append(newDay)
+            }
+            
+        }
+    }
+    
+    func validateZip() -> Bool {
+        if ( (userZip == nil) || (userZip!.count != 5) || (!(userZip!.allSatisfy{ char in char.isNumber})) ) {
+            showInvalidZipWarning = true;
+            return false;
+        } else {
+            return true;
+        }
     }
 }
