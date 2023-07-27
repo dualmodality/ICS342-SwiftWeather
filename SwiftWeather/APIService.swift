@@ -45,12 +45,12 @@ class APIService {
         return currentIcon;
     }
     
-    func getForecast(zipCode : String = "55119", units : String = "imperial", count : Int = 16) async -> MultiForecast? {
+    func getForecast(zipCode : String = "55119", units : String = "imperial", count : Int = 16) async -> ForecastDump? {
         let apiString = baseUrl + "forecast/daily?zip=" + zipCode + "&units=" + units + "&cnt=" + String(count) + "&appid=" + appid;
-        var forecastList : MultiForecast?
+        var forecastList : ForecastDump?
         do {
             let response = try await session.data(from: URL(string: apiString)!);
-            forecastList = try JSONDecoder().decode(MultiForecast.self, from: response.0);
+            forecastList = try JSONDecoder().decode(ForecastDump.self, from: response.0);
         } catch {
             print("Error loading API");
             forecastList = nil;

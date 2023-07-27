@@ -13,8 +13,8 @@ class ForeCastViewModel : ObservableObject {
     @Published var userZip : String? = "55119";
     @Published var userUnits = "imperial";
     @Published var showInvalidZipWarning : Bool = false;
-    @Published var forecastList = MultiForecast(count: 0, forecastList: [])
-    @Published var iconsArray : [UIImage] = []
+    @Published var MultiDay : [DayForecast] = []
+    
     private let apiService : APIService;
     
     init() {
@@ -26,11 +26,22 @@ class ForeCastViewModel : ObservableObject {
     
     func getForecast() async {
         if (validateZip()) {
-            self.forecastList = await apiService.getForecast(zipCode: userZip!, units: userUnits, count: count)!;
-            for (index, day) in forecastList.forecastList.enumerated() {
-                let iconString = day.currentWeatherList.first?.icon;
-                self.iconsArray[index] = await apiService.getIcon(iconString: iconString!)
+            MultiDay = []
+            var forecastDump = await apiService.getForecast(zipCode: userZip!, units: userUnits, count: count)!;
+            for day in forecastDump.dumpList {
+                let iconString = day.currentWeatherList.first!.icon;
+                let newDay = DayForecast(
+                    icon: await apiService.getIcon(iconString: iconString),
+                    date: day.date,
+                    sunrise: day.sunrise,
+                    sunset: day.sunset,
+                    dayTemp: day.tempData.day,
+                    minTemp: day.tempData.min,
+                    maxTemp: day.tempData.max
+                )
+                MultiDay.append(newDay)
             }
+            
         }
     }
     

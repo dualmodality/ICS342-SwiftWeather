@@ -60,17 +60,17 @@ struct WeatherData: Decodable {
     }
 }
 
-struct MultiForecast: Decodable {
+struct ForecastDump: Decodable {
     let count : Int
-    let forecastList : Array<DayForecast>
+    let dumpList : Array<DayDump>
     
     enum CodingKeys: String, CodingKey {
         case count = "cnt"
-        case forecastList = "list"
+        case dumpList = "list"
     }
 }
 
-struct DayForecast: Decodable {
+struct DayDump: Decodable {
     let date : Int64
     let sunrise : Int64
     let sunset : Int64
@@ -91,6 +91,16 @@ struct ForecastTemp: Decodable {
     let day : Float
     let min : Float
     let max : Float
+}
+
+struct DayForecast { //A flattened DayForecast struct to include icon image directly
+    let icon : UIImage
+    let date : Int64
+    let sunrise : Int64
+    let sunset : Int64
+    let dayTemp : Float
+    let minTemp : Float
+    let maxTemp : Float
 }
 
 /*
