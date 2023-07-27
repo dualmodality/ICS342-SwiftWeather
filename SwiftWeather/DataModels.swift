@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /*
  This is the Data Model file, and is pretty similar to the treatment of the data model in Kotlin.

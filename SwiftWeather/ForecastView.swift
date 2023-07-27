@@ -12,9 +12,10 @@ struct ForecastView: View {
     var body: some View {
         NavigationStack {
             LazyVStack {
-                ForEach(viewModel.forecastList, id: \.date) { forecast in
+                ForEach(viewModel.forecastList.forecastList, id: \.date) { forecast in
                     DayForecastView(forecast: forecast)
                 }
+                
             }
             .navigationTitle("16–Day Forecast")
             .toolbarBackground(Color.teal, for: .navigationBar)
@@ -25,21 +26,21 @@ struct ForecastView: View {
 }
 
 struct DayForecastView: View {
-    var forecast : DayForecast
+    let forecast : DayForecast
+    var icon = UIImage(named: "CurrentWeatherIcons")
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
     
 
     
     var body: some View {
-        var icon = Image("CurrentConditionsImage")
         dateFormatter.dateFormat = "MMM d"
         timeFormatter.dateFormat = "H:mma"
-        if let data = try? Data(contentsOf: URL(string: String("https://openweathermap.org/img/wn/" + forecast.currentWeatherList.first!.icon + "@2x.png"))!) {
-            icon = Image(uiImage: UIImage(data: data)!)
+        if (forecast.currentWeatherList.first?.icon != nil) {
+            
         }
         return HStack {
-            icon
+            Image(uiImage: icon!)
             Spacer()
             Text(dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(integerLiteral: forecast.date))))
             Spacer()
