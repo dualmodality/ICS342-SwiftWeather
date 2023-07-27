@@ -8,53 +8,57 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct CurrentConditionsView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+    @StateObject var viewModel: CurrentConditionsViewModel
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(){
-                Text("St. Paul, MN").font(.headline).italic().fontWeight(.light).padding(16)
+                Text(viewModel.locationName).font(.headline).italic().fontWeight(.light).padding(16)
                 Divider()
                 HStack{
                     VStack{
-                        Text("76ºF").font(.system(size: 64))
+                        Text(String(viewModel.currentTemp) + "ºF").font(.system(size: 64))
                         HStack {
                             Text("Feels Like:")
-                            Text("73ºF")
+                            Text(String(viewModel.feelsLike) + "ºF")
                         }
                     }
-                    Image("CurrentConditionsIcons").resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
+                    
+                    Image(uiImage: viewModel.icon!).resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
                 }
                 HStack {
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Low:")
-                            Text("68ºF")
+                            Text(String(viewModel.minTemp) + "ºF")
                         }
                         HStack {
                             Text("High:")
-                            Text("81ºF")
+                            Text(String(viewModel.maxTemp) + "ºF")
                         }
                         HStack {
                             Text("Humidity:")
-                            Text("68%")
+                            Text(String(viewModel.humidity) + "%")
                         }
                         HStack {
                             Text("Pressure:")
-                            Text("1023 mBa")
+                            Text(String(viewModel.pressure) + "hPa")
                         }
                     }.padding(16)
                     Spacer()
                 }
                 Spacer()
+                NavigationLink(destination: ForecastView(viewModel: ForeCastViewModel())) {
+                    Text("Daily Forecast").foregroundColor(Color.black)
+                    .frame(width: 150, height: 50).background(Color.teal)
+                }.containerShape(RoundedRectangle(cornerRadius: 20))
+                Spacer()
             }
             .navigationTitle("SwiftWeather")
+            .toolbarBackground(Color.teal, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             /*.toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text("SwiftWeather").font(.largeTitle)
@@ -71,7 +75,7 @@ struct ContentView: View {
             Text("Select an item")*/
         }
     }
-
+    /*
     private func addItem() {
         withAnimation {
             let newItem = Item(context: viewContext)
@@ -101,18 +105,18 @@ struct ContentView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-    }
+    } */
 }
-
+/*
 private let itemFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .short
     formatter.timeStyle = .medium
     return formatter
 }()
-
-struct ContentView_Previews: PreviewProvider {
+*/
+struct CurrentConditionsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        CurrentConditionsView(viewModel: CurrentConditionsViewModel()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

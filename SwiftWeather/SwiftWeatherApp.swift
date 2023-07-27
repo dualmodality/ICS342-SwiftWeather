@@ -10,10 +10,9 @@ import SwiftUI
 @main
 struct SwiftWeatherApp: App {
     let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CurrentConditionsView(viewModel: CurrentConditionsViewModel())
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
