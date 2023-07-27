@@ -18,17 +18,47 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+            VStack(){
+                Text("St. Paul, MN").font(.headline).italic().fontWeight(.light).padding(16)
+                Divider()
+                HStack{
+                    VStack{
+                        Text("76ºF").font(.system(size: 64))
+                        HStack {
+                            Text("Feels Like:")
+                            Text("73ºF")
+                        }
                     }
+                    Image("CurrentConditionsIcons").resizable().aspectRatio(contentMode: .fit).frame(width: 200, height: 200)
                 }
-                .onDelete(perform: deleteItems)
+                HStack {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Low:")
+                            Text("68ºF")
+                        }
+                        HStack {
+                            Text("High:")
+                            Text("81ºF")
+                        }
+                        HStack {
+                            Text("Humidity:")
+                            Text("68%")
+                        }
+                        HStack {
+                            Text("Pressure:")
+                            Text("1023 mBa")
+                        }
+                    }.padding(16)
+                    Spacer()
+                }
+                Spacer()
             }
-            .toolbar {
+            .navigationTitle("SwiftWeather")
+            /*.toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text("SwiftWeather").font(.largeTitle)
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
@@ -38,7 +68,7 @@ struct ContentView: View {
                     }
                 }
             }
-            Text("Select an item")
+            Text("Select an item")*/
         }
     }
 
