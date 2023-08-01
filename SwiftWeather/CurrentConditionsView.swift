@@ -31,6 +31,10 @@ struct CurrentConditionsView: View {
                            label: {Text("Update")}).foregroundColor(Color.black)
                         .frame(width: 100, height: 50).background(Color.teal).containerShape(RoundedRectangle(cornerRadius: 20)).padding(8)
                 }
+                .alert(isPresented: $viewModel.showInvalidZipWarning, content: {Alert(title: Text("Invalid ZIP Code"),
+                                    message: Text("Please enter a valid US ZIP Code (5-digits)"),
+                                    dismissButton: .default(Text("Okay")))}
+                )
                 Text(viewModel.currentConditions.locationName).font(.largeTitle).italic().fontWeight(.light).padding(16)
                 Divider()
                 HStack{
